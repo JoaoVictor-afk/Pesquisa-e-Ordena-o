@@ -44,32 +44,30 @@ class Ordenacao:
             lista[j + 1] = tmp
         print("--- %s seconds ---" % (time.time() - start_time))
 
-    def shell(lista):
+    def shell(self):
         dist = 1
-        sizeReference=3
+        sizeReference = 3
         start_time = time.time()
-        while (dist <  len(lista)):
-            dist=sizeReference* dist+1
-        
-        
+        while (dist < len(self)):
+            dist = sizeReference * dist+1
+
         while (dist > 1):
             dist = int(float(dist / sizeReference))
 
-
-        for i in range(1, len(lista)):
-            tmp = lista[i]
+        for i in range(1, len(self)):
+            tmp = self[i]
             j = i - dist
 
-            while j >= 0 and tmp < lista[j]:
-                lista[j + dist] = lista[j]
+            while j >= 0 and tmp < self[j]:
+                self[j + dist] = self[j]
                 j = j - dist
 
-            lista[j + dist] = tmp
+            self[j + dist] = tmp
         print("--- %s seconds shell ---" % (time.time() - start_time))
 
-    def sortpy(lista):
+    def sortpy(self):
         start_time = time.time()
-        lista.sort()
+        self.sort()
         print("--- %s seconds ---" % (time.time() - start_time))
 
     def pente(self):
@@ -89,3 +87,53 @@ class Ordenacao:
                     self[i] = self[i + distancia]
                     self[i + distancia] = tmp
         print("--- %s seconds ---" % (time.time() - start_time))
+
+    def partition(self, low, high):
+
+            # choose the rightmost element as pivot
+            pivot = self[high]
+
+            # pointer for greater element
+            i = low - 1
+
+            # traverse through all elements
+            # compare each element with pivot
+            for j in range(low, high):
+                if self[j] <= pivot:
+                    # if element smaller than pivot is found
+                    # swap it with the greater element pointed by i
+                    i = i + 1
+
+                    # swapping element at i with element at j
+                    (self[i], self[j]) = (self[j], self[i])
+
+            # swap the pivot element with the greater element specified by i
+            (self[i + 1], self[high]) = (self[high], self[i + 1])
+
+            # return the position from where partition is done
+            return i + 1
+
+        # function to perform quicksort
+    def quickSort(self, low, high):
+            if low < high:
+
+                # find pivot element such that
+                # element smaller than pivot are on the left
+                # element greater than pivot are on the right
+                pi = Ordenacao.partition(self, low, high)
+
+                # recursive call on the left of pivot
+                Ordenacao.quickSort(self, low, pi - 1)
+
+                # recursive call on the right of pivot
+                Ordenacao.quickSort(self, pi + 1, high)
+
+    def quicksort(self):
+            if len(self) <= 1:
+                return self
+            else:
+                pivot = self[0]
+                left = [x for x in self[1:] if x < pivot]
+                right = [x for x in self[1:] if x >= pivot]
+                return Ordenacao.quicksort(left) + [pivot] + Ordenacao.quicksort(right)
+            print("--- %s seconds ---" % (time.time() - start_time))
