@@ -44,9 +44,32 @@ class Ordenacao:
             lista[j + 1] = tmp
         print("--- %s seconds ---" % (time.time() - start_time))
 
+    def shell(lista):
+        dist = 1
+        sizeReference=3
+        start_time = time.time()
+        while (dist <  len(lista)):
+            dist=sizeReference* dist+1
+        
+        
+        while (dist > 1):
+            dist = int(float(dist / sizeReference))
+
+
+        for i in range(1, len(lista)):
+            tmp = lista[i]
+            j = i - dist
+
+            while j >= 0 and tmp < lista[j]:
+                lista[j + dist] = lista[j]
+                j = j - dist
+
+            lista[j + dist] = tmp
+        print("--- %s seconds shell ---" % (time.time() - start_time))
+
     def sortpy(lista):
         start_time = time.time()
-        lista.sort();
+        lista.sort()
         print("--- %s seconds ---" % (time.time() - start_time))
 
     def pente(self):
@@ -56,7 +79,7 @@ class Ordenacao:
         while houve_troca and distancia > 1:
             distancia = int(float(distancia / 1.3))
             if distancia < 1:
-                distancia = 1;
+                distancia = 1
             houve_troca = False
 
             for i in range(0, len(self) - distancia):
