@@ -12,7 +12,7 @@ class Util:
 
     @staticmethod
     def popular_lista(alunos):
-        for i in range(0, 10000):
+        for i in range(0, 100000):
             alunos.append(random.randint(0, 1000))
 
     @staticmethod

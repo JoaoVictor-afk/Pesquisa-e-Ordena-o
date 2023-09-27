@@ -90,50 +90,93 @@ class Ordenacao:
 
     def partition(self, low, high):
 
-            # choose the rightmost element as pivot
-            pivot = self[high]
+        # choose the rightmost element as pivot
+        pivot = self[high]
 
-            # pointer for greater element
-            i = low - 1
+        # pointer for greater element
+        i = low - 1
 
-            # traverse through all elements
-            # compare each element with pivot
-            for j in range(low, high):
-                if self[j] <= pivot:
-                    # if element smaller than pivot is found
-                    # swap it with the greater element pointed by i
-                    i = i + 1
+        # traverse through all elements
+        # compare each element with pivot
+        for j in range(low, high):
+            if self[j] <= pivot:
+                # if element smaller than pivot is found
+                # swap it with the greater element pointed by i
+                i = i + 1
 
-                    # swapping element at i with element at j
-                    (self[i], self[j]) = (self[j], self[i])
+                # swapping element at i with element at j
+                (self[i], self[j]) = (self[j], self[i])
 
-            # swap the pivot element with the greater element specified by i
-            (self[i + 1], self[high]) = (self[high], self[i + 1])
+        # swap the pivot element with the greater element specified by i
+        (self[i + 1], self[high]) = (self[high], self[i + 1])
 
-            # return the position from where partition is done
-            return i + 1
+        # return the position from where partition is done
+        return i + 1
 
         # function to perform quicksort
     def quickSort(self, low, high):
-            if low < high:
+        if low < high:
 
-                # find pivot element such that
-                # element smaller than pivot are on the left
-                # element greater than pivot are on the right
-                pi = Ordenacao.partition(self, low, high)
+            # find pivot element such that
+            # element smaller than pivot are on the left
+            # element greater than pivot are on the right
+            pi = Ordenacao.partition(self, low, high)
 
-                # recursive call on the left of pivot
-                Ordenacao.quickSort(self, low, pi - 1)
+            # recursive call on the left of pivot
+            Ordenacao.quickSort(self, low, pi - 1)
 
-                # recursive call on the right of pivot
-                Ordenacao.quickSort(self, pi + 1, high)
+            # recursive call on the right of pivot
+            Ordenacao.quickSort(self, pi + 1, high)
 
     def quicksort(self):
-            if len(self) <= 1:
-                return self
+        if len(self) <= 1:
+            return self
+        else:
+            pivot = self[0]
+            left = [x for x in self[1:] if x < pivot]
+            right = [x for x in self[1:] if x >= pivot]
+            return Ordenacao.quicksort(left) + [pivot] + Ordenacao.quicksort(right)
+        print("--- %s seconds ---" % (time.time() - start_time))
+
+    def mergesort(self):
+        start_time = time.time()
+        block = 1
+        n = len(self)
+        while block < n:
+            i1 = 0
+            i2 = block
+            while i2 < n:
+                outputvetor = Ordenacao.join(
+                    self[i1:i2], self[i2:(i2 + block)])
+                i = 0
+                x = i1
+                while x < i2 + block and i < len(outputvetor):
+                    self[x] = outputvetor[i]
+                    i = i + 1
+                    x = x + 1
+                i1 = i2 + block
+                i2 = i1 + block
+            block = block * 2
+        print("--- %s seconds ---" % (time.time() - start_time))    
+        return self
+
+    def join(vetor1, vetor2):
+        i = 0
+        j = 0
+        outputvetor = []
+        while i < len(vetor1) and j < len(vetor2):
+            if vetor1[i] < vetor2[j]:
+                outputvetor.append(vetor1[i])
+                i = i + 1
             else:
-                pivot = self[0]
-                left = [x for x in self[1:] if x < pivot]
-                right = [x for x in self[1:] if x >= pivot]
-                return Ordenacao.quicksort(left) + [pivot] + Ordenacao.quicksort(right)
-            print("--- %s seconds ---" % (time.time() - start_time))
+                outputvetor.append(vetor2[j])
+                j = j + 1
+
+        if(i < len(vetor1)):
+            for x in range(i, len(vetor1)):
+                outputvetor.append(vetor1[x])
+
+        if(j < len(vetor2)):
+            for x in range(j, len(vetor2)):
+                outputvetor.append(vetor2[x])
+        return outputvetor

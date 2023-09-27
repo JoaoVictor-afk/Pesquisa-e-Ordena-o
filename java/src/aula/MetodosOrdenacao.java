@@ -64,4 +64,60 @@ public class MetodosOrdenacao {
             }
         } while (distancia > 1 || houveTroca);
     }
+    
+ public static void intercala(ArrayList<Integer> lista, long   n) {
+       	int   meio;
+       	int  i, j, k;
+       	ArrayList<Integer> vetorTemporario =new ArrayList<Integer>();
+
+
+     	meio = (int)(n / 2);
+
+     	i = 0; //indice da porcao esquerda
+     	j = meio; //indice da porcao direita
+     	k = 0; //indice do vetor temporario
+
+    	while (i < meio && j < n) {
+     		if (lista.get(i) < lista.get(j)) {
+     			vetorTemporario.add(lista.get(i),k);  
+    	  		++i;
+     		} else {
+     			vetorTemporario.add(lista.get(j),k); 
+    	  		++j;
+     		}
+     		++k;
+    	}
+
+    	if (i == meio) {
+     		while (j < n) { //nao hah mais elementos na porcao esquerda
+     			vetorTemporario.add(lista.get(j),k); 
+    	  		++j;
+     	  		++k;
+     		}
+     	} else {
+     		while (i < meio) {
+     			vetorTemporario.add(lista.get(i),k);  
+     	  		++i;
+    	    	++k;
+     		}
+     	}
+
+     	for (i = 0; i < n; ++i) {
+    		lista.add(i,vetorTemporario.get(i));
+     	}
+
+     	vetorTemporario.clear();
+ }
+
+     public static void mergeSort(ArrayList<Integer> lista, long n) { //responsavel pela divisao = recursao
+    	 int meio;
+
+         if (n > 1) {
+            meio = (int)(n / 2);
+
+            mergeSort(lista, meio); //porcao da esquerda
+            mergeSort(lista, n - meio); //porcao da direita
+             intercala(lista, n);
+      }
+    }
 }
