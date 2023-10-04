@@ -20,3 +20,5 @@ Util.popular_lista(alunos)
 array=Ordenacao.mergesort(alunos)
 # Util.exibir_lista(array)
 
+Util.pesquisa_binaria(array,200)
+
